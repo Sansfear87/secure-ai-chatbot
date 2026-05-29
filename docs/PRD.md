@@ -1,77 +1,77 @@
-# PRD — Product Requirements Document
-## Secure AI Chatbot (Gemini Edition)
+# Secure AI Chatbot (Groq Edition)
+
+## Product Requirements Document (PRD)
 
 **Version:** 1.0  
 **Date:** 2025
 
 ---
 
-## 1. Overview
+# 1. Product Overview
 
-A secure, AI-powered chatbot that answers user queries professionally while enforcing strict safety rules and resisting malicious inputs. Powered by **Google Gemini 1.5 Flash**.
+The Secure AI Chatbot is an AI-powered conversational assistant designed to answer user queries professionally while enforcing strict safety and security rules.
+
+The system integrates with Groq-hosted LLMs and includes multiple layers of protection against:
+
+- Prompt injection attacks
+- Harmful or illegal requests
+- Sensitive data extraction attempts
+- Unsafe model behavior
+
+The chatbot returns structured JSON responses for reliable downstream integration.
 
 ---
 
-## 2. Problem Statement
+# 2. Problem Statement
 
-Generic chatbots can be manipulated via prompt injection or tricked into producing harmful content. This product needs guardrails baked in at both the application layer and the LLM prompt layer.
+Traditional AI chatbots can often be manipulated through malicious prompts, jailbreak attempts, or prompt injection techniques.
+
+This project aims to provide a chatbot architecture with guardrails enforced at both:
+
+1. Application Layer
+2. LLM Prompt Layer
 
 ---
 
-## 3. Goals
+# 3. Product Goals
 
 | Goal | Description |
 |------|-------------|
-| Understand queries | Parse natural language user questions |
-| Safe responses | Refuse harmful, illegal, or sensitive requests |
-| Structured output | Return every response as `{ intent, risk_level, response }` |
-| Injection resistance | Detect and block prompt injection attempts |
+| Natural Language Understanding | Interpret and respond to user queries accurately |
+| Safety Enforcement | Block harmful, illegal, or unsafe requests |
+| Structured Output | Return consistent JSON responses |
+| Injection Resistance | Detect and reject prompt injection attempts |
 
 ---
 
-## 4. Target Users
+# 4. Target Users
 
-- Internal company employees seeking quick answers
-- Customer support teams using a chatbot front-end
-
----
-
-## 5. Key Features
-
-| # | Feature | Priority |
-|---|---------|----------|
-| 1 | `POST /chat` — main chat endpoint | P0 |
-| 2 | `GET /health` — liveness probe | P0 |
-| 3 | Keyword-based guardrails | P0 |
-| 4 | Prompt injection detection | P0 |
-| 5 | Gemini 1.5 Flash LLM integration | P0 |
-| 6 | Structured JSON output (intent / risk_level / response) | P0 |
+- Internal company employees
+- Customer support teams
+- Organizations requiring safe AI interactions
 
 ---
 
-## 6. Non-Goals (v1)
+# 5. Core Features
 
-- No user authentication or session management
-- No persistent chat history / memory
-- No multi-language support
-- No rate limiting (add in v2)
+| Priority | Feature | Description |
+|----------|---------|-------------|
+| P0 | `POST /chat` | Main chatbot interaction endpoint |
+| P0 | `GET /health` | Service health/liveness endpoint |
+| P0 | Keyword-Based Guardrails | Detect harmful or restricted content |
+| P0 | Prompt Injection Detection | Identify jailbreak and injection attempts |
+| P0 | Groq LLM Integration | AI response generation |
+| P0 | Structured JSON Responses | Consistent machine-readable output |
 
 ---
 
-## 7. Tech Stack
+# 6. Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Language | Python 3.10+ |
-| Framework | Flask 3 |
-| LLM | Google Gemini 1.5 Flash (REST) |
+|------|-------------|
+| Programming Language | Python 3.10+ |
+| Backend Framework | Flask 3 |
+| LLM Provider | Groq |
+| Model | llama-3.1-8b-instant |
 | HTTP Client | requests |
-| Config | python-dotenv |
-
----
-
-## 8. Success Metrics
-
-- Blocked queries return `risk_level: high` within 50 ms (no LLM call)
-- Safe queries return valid JSON 100% of the time
-- Zero prompt injection bypasses in manual testing
+| Environment Config | python-dotenv |
