@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secure AI Chatbot</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; }
+    input { width: 80%; padding: 10px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    #response { margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h2>🔐 Secure AI Chatbot</h2>
+  <input type="text" id="query" placeholder="Ask something..." />
+  <button onclick="sendQuery()">Send</button>
+  <div id="response">Response will appear here...</div>
+
+  <script>
+    async function sendQuery() {
+      const query = document.getElementById("query").value;
+      const res = await fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+      document.getElementById("response").innerText = data.response;
+    }
+  </script>
+</body>
+</html>
