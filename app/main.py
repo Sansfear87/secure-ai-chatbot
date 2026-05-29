@@ -12,13 +12,14 @@ import os
 import sys
 
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from dotenv import load_dotenv
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from prompts.prompt import SYSTEM_PROMPT
 from parsers.parser import parse_response
+from flask_cors import CORS
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -31,7 +32,16 @@ GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
 GROQ_MODEL   = "llama-3.3-70b-versatile"
 
 app = Flask(__name__)
+CORS(app)
 
+# ---------------------------------------------------------------------------
+# Frontend route
+# ---------------------------------------------------------------------------
+
+@app.route("/")
+def index():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return send_file(os.path.join(base_dir, "index.html"))
 
 # ---------------------------------------------------------------------------
 # Guardrails
